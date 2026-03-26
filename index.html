@@ -3,85 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDI - Mapa Conceptual</title>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<title>PDI - Mapa Conceptual Interactivo</title>
+<script>MathJax={tex:{inlineMath:[["$","$"]]},svg:{fontCache:"global"}};</script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Nunito:wght@300;400;600;700&display=swap');
-:root{
-  --pk:#f8a7c8;--pkl:#fde2ef;--pkd:#c0487e;
-  --pu:#c9a7f0;--pul:#ede1ff;--pud:#7c4dbe;
-  --bl:#a7c8f8;--bll:#ddeeff;--bld:#3a7dd4;
-  --tx:#2a1a3e;--mx:#555;--gy:#888;
-}
+:root{--pk:#f8a7c8;--pkl:#fde2ef;--pkd:#c0487e;--pu:#c9a7f0;--pul:#ede1ff;--pud:#7c4dbe;--bl:#a7c8f8;--bll:#ddeeff;--bld:#3a7dd4;--tx:#2a1a3e;--mx:#555;--gy:#888;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#fff;color:var(--tx);font-family:'Nunito',sans-serif;}
-header{text-align:center;padding:24px 16px 8px;border-bottom:2px solid var(--pul);}
-.htag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--pud);margin-bottom:6px;font-weight:700;}
-header h1{font-family:'Quicksand',sans-serif;font-size:clamp(18px,3.5vw,34px);font-weight:700;color:var(--pud);}
-header p{color:var(--gy);font-size:12px;margin-top:3px;}
-.ctrls{display:flex;gap:8px;justify-content:center;padding:10px 16px 6px;flex-wrap:wrap;}
-.btn{background:var(--pul);border:1.5px solid var(--pu);color:var(--pud);font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;padding:6px 18px;border-radius:20px;cursor:pointer;transition:.2s;}
+body{background:#fff;color:var(--tx);font-family:"Nunito",sans-serif;overflow-x:hidden;}
+header{text-align:center;padding:22px 16px 6px;border-bottom:2px solid var(--pul);}
+.htag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--pud);margin-bottom:5px;font-weight:700;}
+header h1{font-family:"Quicksand",sans-serif;font-size:clamp(17px,3.5vw,32px);font-weight:700;color:var(--pud);}
+header p{color:var(--gy);font-size:12px;margin-top:2px;}
+.ctrls{display:flex;gap:8px;justify-content:center;padding:10px 16px 5px;flex-wrap:wrap;}
+.btn{background:var(--pul);border:1.5px solid var(--pu);color:var(--pud);font-family:"Nunito",sans-serif;font-size:12px;font-weight:700;padding:6px 18px;border-radius:20px;cursor:pointer;transition:.2s;}
 .btn:hover,.btn.on{background:var(--pu);color:#fff;}
 .leg{display:flex;gap:12px;justify-content:center;padding:4px 16px 8px;flex-wrap:wrap;}
 .li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--mx);}
 .lc{width:10px;height:10px;border-radius:50%;}
-.mapw{width:100%;overflow-x:auto;padding:6px 0 30px;}
-svg#ms{min-width:900px;max-width:1350px;width:100%;height:auto;}
-.sn{cursor:pointer;}.sn ellipse,.sn rect{transition:filter .18s;}.sn:hover ellipse,.sn:hover rect{filter:brightness(.93);}
-#cv{display:none;padding:12px;}
-.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
-.cc{border-radius:12px;padding:14px;cursor:pointer;border:1.5px solid transparent;transition:.25s;box-shadow:0 1px 8px rgba(0,0,0,.07);}
+#mapv{width:100%;overflow-x:auto;padding:4px 0 24px;}
+svg#ms{min-width:880px;max-width:1320px;width:100%;height:auto;display:block;margin:0 auto;}
+.sn{cursor:pointer;}
+.sn ellipse{transition:filter .18s;}
+.sn:hover ellipse{filter:brightness(.93);}
+#cardsv{display:none;padding:12px;}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;}
+.cc{border-radius:12px;padding:14px;cursor:pointer;border:1.5px solid transparent;transition:.22s;box-shadow:0 1px 8px rgba(0,0,0,.07);}
 .cc:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.12);}
-.ce{font-size:26px;display:block;margin-bottom:7px;}
-.cc h3{font-family:'Quicksand',sans-serif;font-size:14px;font-weight:700;margin-bottom:3px;}
+.ce{font-size:24px;display:block;margin-bottom:6px;}
+.cc h3{font-family:"Quicksand",sans-serif;font-size:14px;font-weight:700;margin-bottom:3px;}
 .cc .cu{font-size:10px;margin-bottom:7px;display:block;}
-.cc ul{list-style:none;}.cc li{font-size:11px;color:var(--mx);padding:2px 0;border-bottom:1px solid rgba(0,0,0,.05);}
-.cc li::before{content:'> ';}
-#pnl{position:fixed;top:0;right:0;bottom:0;transform:translateX(102%);z-index:300;width:clamp(290px,30vw,400px);background:#fff;border-left:3px solid var(--pu);display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.22,.68,0,1.2);box-shadow:-3px 0 24px rgba(0,0,0,.12);}
-#pnl.open{transform:translateX(0);}
+.cc ul{list-style:none;}
+.cc li{font-size:11px;color:var(--mx);padding:2px 0;border-bottom:1px solid rgba(0,0,0,.05);}
+.cc li::before{content:"> ";}
+/* OVERLAY + PANEL - sin position:fixed para evitar problemas en GitHub Pages */
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;}
+#overlay.show{display:block;}
+#pnl{display:none;position:fixed;top:0;right:0;bottom:0;width:clamp(290px,33vw,410px);background:#fff;border-left:3px solid var(--pu);z-index:201;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.15);overflow:hidden;}
+#pnl.show{display:flex;}
 #ph{padding:16px 18px 12px;border-bottom:1px solid #f0eaff;flex-shrink:0;position:relative;}
-#ph h2{font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;margin-bottom:2px;}
-#ph .pu{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gy);font-weight:700;}
-#pclose{position:absolute;top:12px;right:12px;background:var(--pul);border:none;color:var(--pud);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;font-weight:700;}
-#pclose:hover{background:var(--pk);color:var(--pkd);}
-#pdemo{flex-shrink:0;padding:10px 18px;border-bottom:1px solid #f0eaff;background:#fafafa;}
-#pdemo canvas{border-radius:8px;display:block;margin:0 auto;}
-#pdemo .dl{font-size:9px;color:var(--gy);text-align:center;margin-top:4px;font-weight:600;}
-#pform{flex-shrink:0;padding:8px 18px;border-bottom:1px solid #eee;font-size:12px;color:var(--pud);text-align:center;min-height:36px;background:var(--pul);}
-#pscroll{flex:1;overflow-y:auto;padding:12px 18px 16px;}
+#ph h2{font-family:"Quicksand",sans-serif;font-size:18px;font-weight:700;margin-bottom:2px;}
+#ph .su{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gy);font-weight:700;}
+#pcl{position:absolute;top:12px;right:12px;background:var(--pul);border:none;color:var(--pud);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;font-weight:700;}
+#pcl:hover{background:var(--pk);color:var(--pkd);}
+#pdemo{flex-shrink:0;padding:10px 16px;border-bottom:1px solid #f0eaff;background:#fafafa;text-align:center;}
+#pdemo canvas{border-radius:8px;max-width:100%;}
+#pdemo .dl{font-size:9px;color:var(--gy);margin-top:4px;font-weight:600;}
+#pformula{flex-shrink:0;padding:7px 16px;border-bottom:1px solid #eee;font-size:12px;text-align:center;min-height:34px;}
+#pextra{flex-shrink:0;padding:6px 16px;border-bottom:1px solid #eee;}
+.srow{display:flex;gap:6px;align-items:center;margin-bottom:5px;}
+.srow label{font-size:11px;color:var(--mx);min-width:16px;}
+.srow input[type=range]{flex:1;accent-color:var(--pu);}
+.srow span{font-size:11px;font-weight:700;color:var(--pud);min-width:30px;text-align:right;}
+#pitems{flex:1;overflow-y:auto;padding:12px 16px 16px;}
 .di{display:flex;gap:8px;margin-bottom:9px;align-items:flex-start;}
 .dd{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0;}
 .di p{font-size:12px;line-height:1.55;color:var(--mx);}
 .di p strong{color:var(--tx);font-weight:600;}
-#tip{position:fixed;pointer-events:none;z-index:400;background:var(--pud);border-radius:6px;padding:5px 10px;font-size:11px;color:#fff;font-weight:600;opacity:0;transition:opacity .15s;white-space:nowrap;}
-::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#f5f0ff;}::-webkit-scrollbar-thumb{background:var(--pu);border-radius:2px;}
-/* interactive slider */
-.slab{font-size:11px;color:var(--mx);margin-bottom:3px;display:block;}
-input[type=range]{width:100%;accent-color:var(--pu);}
-.srow{display:flex;gap:6px;align-items:center;margin-bottom:6px;}
-.srow label{font-size:11px;color:var(--mx);min-width:14px;}
-.srow span{font-size:11px;font-weight:700;color:var(--pud);min-width:28px;}
+#tooltip{position:fixed;pointer-events:none;z-index:400;background:var(--pud);border-radius:6px;padding:5px 10px;font-size:11px;color:#fff;font-weight:600;opacity:0;transition:opacity .15s;white-space:nowrap;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--pu);border-radius:2px;}
 </style>
 </head>
 <body>
-<div id="tip"></div>
+<div id="tooltip"></div>
+<div id="overlay" onclick="closePanel()"></div>
+
 <header>
   <div class="htag">ESCOM &middot; IPN &middot; 3BV2 &middot; Dra. Mar&iacute;a Elena Cruz Meza</div>
   <h1>Procesamiento Digital de Im&aacute;genes</h1>
-  <p>Mapa Conceptual Interactivo &mdash; Unidades 1 &amp; 2 &nbsp;&middot;&nbsp; Clic en cualquier nodo para ver demo + f&oacute;rmulas</p>
+  <p>Mapa Conceptual Interactivo &mdash; Unidades 1 &amp; 2 &nbsp;&middot;&nbsp; Clic en cualquier nodo</p>
 </header>
+
 <div class="ctrls">
-  <button class="btn on" id="bmap" onclick="sv('map')">&#128506; Mapa Mental</button>
-  <button class="btn" id="bcards" onclick="sv('cards')">&#128203; Vista Tarjetas</button>
+  <button class="btn on" id="bmap" onclick="switchView(\'map\')">&#128506; Mapa Mental</button>
+  <button class="btn" id="bcards" onclick="switchView(\'cards\')">&#128203; Vista Tarjetas</button>
 </div>
 <div class="leg">
   <div class="li"><div class="lc" style="background:#f8a7c8"></div>Unidad 1 &mdash; Fundamentos</div>
   <div class="li"><div class="lc" style="background:#c9a7f0"></div>Unidad 2 &mdash; An&aacute;lisis</div>
-  <div class="li"><div class="lc" style="background:#a7c8f8"></div>Conceptos transversales</div>
+  <div class="li"><div class="lc" style="background:#a7c8f8"></div>Transversal</div>
 </div>
 
-<div class="mapw" id="mapv">
+<!-- MAP -->
+<div id="mapv">
 <svg id="ms" viewBox="0 0 1340 900" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <linearGradient id="gp" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fde2ef"/><stop offset="100%" stop-color="#f8a7c8"/></linearGradient>
@@ -89,7 +93,7 @@ input[type=range]{width:100%;accent-color:var(--pu);}
   <linearGradient id="gb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ddeeff"/><stop offset="100%" stop-color="#a7c8f8"/></linearGradient>
   <linearGradient id="gc" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0e8ff"/><stop offset="100%" stop-color="#d4b8ff"/></linearGradient>
 </defs>
-<!-- main connectors -->
+<!-- lineas principales -->
 <line x1="613" y1="414" x2="388" y2="205" stroke="#f8a7c8" stroke-width="2.2" stroke-dasharray="6,3"/>
 <line x1="600" y1="435" x2="375" y2="435" stroke="#f8a7c8" stroke-width="2.2" stroke-dasharray="6,3"/>
 <line x1="613" y1="456" x2="388" y2="665" stroke="#f8a7c8" stroke-width="2.2" stroke-dasharray="6,3"/>
@@ -97,494 +101,569 @@ input[type=range]{width:100%;accent-color:var(--pu);}
 <line x1="728" y1="414" x2="952" y2="205" stroke="#c9a7f0" stroke-width="2.2" stroke-dasharray="6,3"/>
 <line x1="740" y1="435" x2="960" y2="435" stroke="#a7c8f8" stroke-width="2.2" stroke-dasharray="6,3"/>
 <line x1="728" y1="456" x2="952" y2="665" stroke="#a7c8f8" stroke-width="2.2" stroke-dasharray="6,3"/>
-<!-- sub left img -->
+<!-- sub izq img -->
 <line x1="322" y1="192" x2="195" y2="108" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
 <line x1="320" y1="205" x2="195" y2="205" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
 <line x1="322" y1="220" x2="195" y2="316" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
-<!-- sub left hist -->
+<!-- sub izq hist -->
 <line x1="306" y1="418" x2="158" y2="360" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
 <line x1="306" y1="435" x2="158" y2="435" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
 <line x1="306" y1="452" x2="158" y2="510" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
-<!-- sub left color -->
+<!-- sub izq color -->
 <line x1="322" y1="652" x2="178" y2="595" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
 <line x1="322" y1="665" x2="178" y2="665" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
 <line x1="322" y1="680" x2="178" y2="754" stroke="#f8a7c8" stroke-width="1.2" opacity=".5"/>
-<!-- sub top ai -->
+<!-- sub arriba ai -->
 <line x1="646" y1="128" x2="533" y2="53" stroke="#c9a7f0" stroke-width="1.2" opacity=".5"/>
 <line x1="670" y1="120" x2="670" y2="48" stroke="#c9a7f0" stroke-width="1.2" opacity=".5"/>
 <line x1="694" y1="128" x2="808" y2="53" stroke="#c9a7f0" stroke-width="1.2" opacity=".5"/>
-<!-- sub right eti -->
+<!-- sub der eti -->
 <line x1="1020" y1="192" x2="1148" y2="108" stroke="#c9a7f0" stroke-width="1.2" opacity=".5"/>
 <line x1="1022" y1="205" x2="1148" y2="205" stroke="#c9a7f0" stroke-width="1.2" opacity=".5"/>
 <line x1="1020" y1="220" x2="1148" y2="316" stroke="#c9a7f0" stroke-width="1.2" opacity=".5"/>
-<!-- sub right rui -->
+<!-- sub der rui -->
 <line x1="1028" y1="418" x2="1170" y2="360" stroke="#a7c8f8" stroke-width="1.2" opacity=".5"/>
 <line x1="1030" y1="435" x2="1170" y2="435" stroke="#a7c8f8" stroke-width="1.2" opacity=".5"/>
 <line x1="1028" y1="452" x2="1170" y2="510" stroke="#a7c8f8" stroke-width="1.2" opacity=".5"/>
-<!-- sub right ops -->
+<!-- sub der ops -->
 <line x1="1020" y1="652" x2="1160" y2="595" stroke="#a7c8f8" stroke-width="1.2" opacity=".5"/>
 <line x1="1022" y1="665" x2="1160" y2="665" stroke="#a7c8f8" stroke-width="1.2" opacity=".5"/>
 <line x1="1020" y1="680" x2="1160" y2="754" stroke="#a7c8f8" stroke-width="1.2" opacity=".5"/>
-
-<!-- CENTER NODE -->
+<!-- CENTRO -->
 <ellipse cx="670" cy="435" rx="82" ry="52" fill="url(#gc)" stroke="#c9a7f0" stroke-width="2"/>
-<text x="670" y="425" text-anchor="middle" font-size="20">&#128421;&#65039;</text>
+<text x="670" y="424" text-anchor="middle" font-size="20" font-family="serif">&#128421;</text>
 <text x="670" y="447" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="13" font-weight="700" fill="#7c4dbe">PDI</text>
 <text x="670" y="463" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#9b6de0">Unidades 1 y 2</text>
-
 <!-- IMAGEN DIGITAL -->
-<g class="sn" onclick="op('img')" data-tip="Imagen Digital">
-<ellipse cx="350" cy="205" rx="68" ry="46" fill="url(#gp)" stroke="#f8a7c8" stroke-width="1.8"/>
-<text x="350" y="192" text-anchor="middle" font-size="18">&#128444;&#65039;</text>
-<text x="350" y="210" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">Imagen</text>
-<text x="350" y="225" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">Digital</text>
+<g class="sn" onclick="openPanel(\'img\')" data-tip="Imagen Digital">
+  <ellipse cx="350" cy="205" rx="68" ry="46" fill="url(#gp)" stroke="#f8a7c8" stroke-width="1.8"/>
+  <text x="350" y="192" text-anchor="middle" font-size="18">&#128444;</text>
+  <text x="350" y="211" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">Imagen</text>
+  <text x="350" y="226" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">Digital</text>
 </g>
-<g onclick="op('img')" style="cursor:pointer"><rect x="72" y="72" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="88" y="92" font-size="12">&#128208;</text><text x="133" y="92" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">P&iacute;xel &middot; Resoluci&oacute;n</text><text x="133" y="107" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">PPI/DPI &middot; tama&ntilde;o</text></g>
-<g onclick="op('img')" style="cursor:pointer"><rect x="58" y="180" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="74" y="200" font-size="12">&#128290;</text><text x="119" y="200" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Profundidad bits</text><text x="119" y="215" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">1b &middot; 8b &middot; 24b color</text></g>
-<g onclick="op('img')" style="cursor:pointer"><rect x="72" y="292" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="88" y="312" font-size="12">&#128259;</text><text x="133" y="312" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Muestreo y</text><text x="133" y="327" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">Cuantizaci&oacute;n</text></g>
-
+<g onclick="openPanel(\'img\')" style="cursor:pointer"><rect x="72" y="72" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="88" y="92" font-size="13">&#128208;</text><text x="133" y="92" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">P&#237;xel &amp; Resoluci&#243;n</text>
+  <text x="133" y="107" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">PPI/DPI &bull; tama&#241;o</text></g>
+<g onclick="openPanel(\'img\')" style="cursor:pointer"><rect x="58" y="180" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="74" y="200" font-size="13">&#128290;</text><text x="119" y="200" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Profundidad bits</text>
+  <text x="119" y="215" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">1b &bull; 8b &bull; 24b RGB</text></g>
+<g onclick="openPanel(\'img\')" style="cursor:pointer"><rect x="72" y="292" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="88" y="312" font-size="13">&#128259;</text><text x="133" y="312" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Muestreo y</text>
+  <text x="133" y="327" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">Cuantizaci&#243;n</text></g>
 <!-- HISTOGRAMA -->
-<g class="sn" onclick="op('hist')" data-tip="Histograma">
-<ellipse cx="337" cy="435" rx="68" ry="46" fill="url(#gp)" stroke="#f8a7c8" stroke-width="1.8"/>
-<text x="337" y="422" text-anchor="middle" font-size="18">&#128202;</text>
-<text x="337" y="441" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">Histo-</text>
-<text x="337" y="456" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">grama</text>
+<g class="sn" onclick="openPanel(\'hist\')" data-tip="Histograma">
+  <ellipse cx="337" cy="435" rx="68" ry="46" fill="url(#gp)" stroke="#f8a7c8" stroke-width="1.8"/>
+  <text x="337" y="422" text-anchor="middle" font-size="18">&#128202;</text>
+  <text x="337" y="442" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">Histo-</text>
+  <text x="337" y="457" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">grama</text>
 </g>
-<g onclick="op('hist')" style="cursor:pointer"><rect x="30" y="334" width="126" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="46" y="354" font-size="12">&#9728;&#65039;</text><text x="93" y="354" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Brillo &amp; Contraste</text><text x="93" y="369" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">g=f+c &nbsp; g=a&middot;f</text></g>
-<g onclick="op('hist')" style="cursor:pointer"><rect x="30" y="411" width="126" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="46" y="431" font-size="12">&#9878;&#65039;</text><text x="93" y="431" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Ecualizaci&oacute;n</text><text x="93" y="446" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">distribuci&oacute;n uniforme</text></g>
-<g onclick="op('hist')" style="cursor:pointer"><rect x="30" y="485" width="126" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="46" y="505" font-size="12">&#127919;</text><text x="93" y="505" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Especificaci&oacute;n</text><text x="93" y="520" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">histograma objetivo</text></g>
-
+<g onclick="openPanel(\'hist\')" style="cursor:pointer"><rect x="30" y="334" width="126" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="46" y="354" font-size="13">&#9728;</text><text x="93" y="354" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Brillo &amp; Contraste</text>
+  <text x="93" y="369" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">g=f+c &bull; g=a&#183;f</text></g>
+<g onclick="openPanel(\'hist\')" style="cursor:pointer"><rect x="30" y="411" width="126" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="46" y="431" font-size="13">&#9878;</text><text x="93" y="431" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Ecualizaci&#243;n</text>
+  <text x="93" y="446" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">distribuci&#243;n uniforme</text></g>
+<g onclick="openPanel(\'hist\')" style="cursor:pointer"><rect x="30" y="485" width="126" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="46" y="505" font-size="13">&#127919;</text><text x="93" y="505" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">Especificaci&#243;n</text>
+  <text x="93" y="520" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">histograma objetivo</text></g>
 <!-- MODELOS COLOR -->
-<g class="sn" onclick="op('color')" data-tip="Modelos de Color">
-<ellipse cx="350" cy="665" rx="68" ry="46" fill="url(#gp)" stroke="#f8a7c8" stroke-width="1.8"/>
-<text x="350" y="652" text-anchor="middle" font-size="18">&#127912;</text>
-<text x="350" y="671" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">Modelos</text>
-<text x="350" y="686" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">de Color</text>
+<g class="sn" onclick="openPanel(\'color\')" data-tip="Modelos de Color">
+  <ellipse cx="350" cy="665" rx="68" ry="46" fill="url(#gp)" stroke="#f8a7c8" stroke-width="1.8"/>
+  <text x="350" y="652" text-anchor="middle" font-size="18">&#127912;</text>
+  <text x="350" y="672" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">Modelos</text>
+  <text x="350" y="687" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#c0487e">de Color</text>
 </g>
-<g onclick="op('color')" style="cursor:pointer"><rect x="55" y="568" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="71" y="588" font-size="12">&#128308;</text><text x="116" y="588" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">RGB / RGBA</text><text x="116" y="603" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">modelo aditivo</text></g>
-<g onclick="op('color')" style="cursor:pointer"><rect x="55" y="641" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="71" y="661" font-size="12">&#127752;</text><text x="116" y="661" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">HSV / HSI</text><text x="116" y="676" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">tono &middot; sat &middot; valor</text></g>
-<g onclick="op('color')" style="cursor:pointer"><rect x="55" y="730" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/><text x="71" y="750" font-size="12">&#128250;</text><text x="116" y="750" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">YCbCr / CMY</text><text x="116" y="765" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">lum &middot; crominancia</text></g>
-
+<g onclick="openPanel(\'color\')" style="cursor:pointer"><rect x="55" y="568" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="71" y="588" font-size="13">&#128308;</text><text x="116" y="588" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">RGB / RGBA</text>
+  <text x="116" y="603" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">modelo aditivo</text></g>
+<g onclick="openPanel(\'color\')" style="cursor:pointer"><rect x="55" y="641" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="71" y="661" font-size="13">&#127752;</text><text x="116" y="661" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">HSV / HSI</text>
+  <text x="116" y="676" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">tono &bull; sat &bull; valor</text></g>
+<g onclick="openPanel(\'color\')" style="cursor:pointer"><rect x="55" y="730" width="122" height="48" rx="9" fill="#fde2ef" stroke="#f8a7c8" stroke-width="1.2"/>
+  <text x="71" y="750" font-size="13">&#128250;</text><text x="116" y="750" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#c0487e">YCbCr / CMY</text>
+  <text x="116" y="765" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">lum &bull; crominancia</text></g>
 <!-- ANALISIS -->
-<g class="sn" onclick="op('ai')" data-tip="Analisis de Imagenes">
-<ellipse cx="670" cy="143" rx="76" ry="46" fill="url(#gv)" stroke="#c9a7f0" stroke-width="1.8"/>
-<text x="670" y="130" text-anchor="middle" font-size="18">&#128300;</text>
-<text x="670" y="150" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#7c4dbe">An&aacute;lisis de</text>
-<text x="670" y="165" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#7c4dbe">Im&aacute;genes</text>
+<g class="sn" onclick="openPanel(\'ai\')" data-tip="Analisis de Imagenes">
+  <ellipse cx="670" cy="143" rx="76" ry="46" fill="url(#gv)" stroke="#c9a7f0" stroke-width="1.8"/>
+  <text x="670" y="130" text-anchor="middle" font-size="18">&#128300;</text>
+  <text x="670" y="150" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#7c4dbe">An&#225;lisis de</text>
+  <text x="670" y="165" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#7c4dbe">Im&#225;genes</text>
 </g>
-<g onclick="op('ai')" style="cursor:pointer"><rect x="422" y="24" width="110" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/><text x="438" y="44" font-size="12">&#9986;&#65039;</text><text x="477" y="44" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Segmentaci&oacute;n</text><text x="477" y="59" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">umbral &middot; Otsu</text></g>
-<g onclick="op('ai')" style="cursor:pointer"><rect x="614" y="16" width="112" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/><text x="630" y="36" font-size="12">&#128269;</text><text x="670" y="36" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Detecc. Bordes</text><text x="670" y="51" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">Sobel &middot; Canny</text></g>
-<g onclick="op('ai')" style="cursor:pointer"><rect x="806" y="24" width="110" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/><text x="822" y="44" font-size="12">&#128207;</text><text x="861" y="44" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Extracci&oacute;n</text><text x="861" y="59" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">forma &middot; momentos</text></g>
-
+<g onclick="openPanel(\'ai\')" style="cursor:pointer"><rect x="422" y="24" width="110" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/>
+  <text x="438" y="44" font-size="13">&#9986;</text><text x="477" y="44" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Segmentaci&#243;n</text>
+  <text x="477" y="59" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">umbral &bull; Otsu</text></g>
+<g onclick="openPanel(\'ai\')" style="cursor:pointer"><rect x="614" y="16" width="112" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/>
+  <text x="630" y="36" font-size="13">&#128269;</text><text x="670" y="36" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Detecc. Bordes</text>
+  <text x="670" y="51" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">Sobel &bull; Canny</text></g>
+<g onclick="openPanel(\'ai\')" style="cursor:pointer"><rect x="806" y="24" width="110" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/>
+  <text x="822" y="44" font-size="13">&#128207;</text><text x="861" y="44" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Extracci&#243;n</text>
+  <text x="861" y="59" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">forma &bull; momentos</text></g>
 <!-- ETIQUETADO -->
-<g class="sn" onclick="op('eti')" data-tip="Etiquetado Comp. Conexas">
-<ellipse cx="987" cy="205" rx="70" ry="46" fill="url(#gv)" stroke="#c9a7f0" stroke-width="1.8"/>
-<text x="987" y="192" text-anchor="middle" font-size="18">&#127991;&#65039;</text>
-<text x="987" y="211" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="700" fill="#7c4dbe">Etiquetado</text>
-<text x="987" y="226" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="700" fill="#7c4dbe">Comp. Conexas</text>
+<g class="sn" onclick="openPanel(\'eti\')" data-tip="Etiquetado Comp. Conexas">
+  <ellipse cx="987" cy="205" rx="70" ry="46" fill="url(#gv)" stroke="#c9a7f0" stroke-width="1.8"/>
+  <text x="987" y="192" text-anchor="middle" font-size="18">&#127991;</text>
+  <text x="987" y="212" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="700" fill="#7c4dbe">Etiquetado</text>
+  <text x="987" y="227" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="700" fill="#7c4dbe">Comp. Conexas</text>
 </g>
-<g onclick="op('eti')" style="cursor:pointer"><rect x="1150" y="72" width="128" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/><text x="1166" y="92" font-size="12">&#10133;</text><text x="1214" y="92" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Vecindad V4</text><text x="1214" y="107" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">4 vecinos sin diag.</text></g>
-<g onclick="op('eti')" style="cursor:pointer"><rect x="1150" y="180" width="128" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/><text x="1166" y="200" font-size="12">&#11036;</text><text x="1214" y="200" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Vecindad V8</text><text x="1214" y="215" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">8 vecinos con diag.</text></g>
-<g onclick="op('eti')" style="cursor:pointer"><rect x="1150" y="292" width="128" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/><text x="1166" y="312" font-size="12">&#128270;</text><text x="1214" y="312" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Alg. BFS</text><text x="1214" y="327" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">2 pasadas Union-Find</text></g>
-
+<g onclick="openPanel(\'eti\')" style="cursor:pointer"><rect x="1150" y="72" width="128" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/>
+  <text x="1166" y="92" font-size="13">&#10133;</text><text x="1214" y="92" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Vecindad V4</text>
+  <text x="1214" y="107" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">4 vecinos sin diag.</text></g>
+<g onclick="openPanel(\'eti\')" style="cursor:pointer"><rect x="1150" y="180" width="128" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/>
+  <text x="1166" y="200" font-size="13">&#11036;</text><text x="1214" y="200" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Vecindad V8</text>
+  <text x="1214" y="215" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">8 vecinos con diag.</text></g>
+<g onclick="openPanel(\'eti\')" style="cursor:pointer"><rect x="1150" y="292" width="128" height="48" rx="9" fill="#ede1ff" stroke="#c9a7f0" stroke-width="1.2"/>
+  <text x="1166" y="312" font-size="13">&#128270;</text><text x="1214" y="312" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c4dbe">Alg. BFS</text>
+  <text x="1214" y="327" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">2 pasadas Union-Find</text></g>
 <!-- RUIDO -->
-<g class="sn" onclick="op('rui')" data-tip="Modelos de Ruido">
-<ellipse cx="995" cy="435" rx="68" ry="46" fill="url(#gb)" stroke="#a7c8f8" stroke-width="1.8"/>
-<text x="995" y="422" text-anchor="middle" font-size="18">&#128225;</text>
-<text x="995" y="441" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#3a7dd4">Modelos</text>
-<text x="995" y="456" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#3a7dd4">de Ruido</text>
+<g class="sn" onclick="openPanel(\'rui\')" data-tip="Modelos de Ruido">
+  <ellipse cx="995" cy="435" rx="68" ry="46" fill="url(#gb)" stroke="#a7c8f8" stroke-width="1.8"/>
+  <text x="995" y="422" text-anchor="middle" font-size="18">&#128225;</text>
+  <text x="995" y="442" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#3a7dd4">Modelos</text>
+  <text x="995" y="457" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="700" fill="#3a7dd4">de Ruido</text>
 </g>
-<g onclick="op('rui')" style="cursor:pointer"><rect x="1172" y="334" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/><text x="1188" y="354" font-size="12">&#128276;</text><text x="1236" y="354" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Gaussiano</text><text x="1236" y="369" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">distrib. normal &#956;&#963;&#178;</text></g>
-<g onclick="op('rui')" style="cursor:pointer"><rect x="1172" y="411" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/><text x="1188" y="431" font-size="12">&#129474;</text><text x="1236" y="431" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Sal &amp; Pimienta</text><text x="1236" y="446" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">p&iacute;xeles 0 / 255</text></g>
-<g onclick="op('rui')" style="cursor:pointer"><rect x="1172" y="485" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/><text x="1188" y="505" font-size="12">&#128225;</text><text x="1236" y="505" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Rayleigh/Erlang</text><text x="1236" y="520" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">radar &middot; im&aacute;genes m&eacute;d.</text></g>
-
+<g onclick="openPanel(\'rui\')" style="cursor:pointer"><rect x="1172" y="334" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/>
+  <text x="1188" y="354" font-size="13">&#128276;</text><text x="1236" y="354" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Gaussiano</text>
+  <text x="1236" y="369" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">distrib. normal &#956; &#963;&#178;</text></g>
+<g onclick="openPanel(\'rui\')" style="cursor:pointer"><rect x="1172" y="411" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/>
+  <text x="1188" y="431" font-size="13">&#129474;</text><text x="1236" y="431" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Sal &amp; Pimienta</text>
+  <text x="1236" y="446" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">p&#237;xeles 0 / 255</text></g>
+<g onclick="openPanel(\'rui\')" style="cursor:pointer"><rect x="1172" y="485" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/>
+  <text x="1188" y="505" font-size="13">&#128225;</text><text x="1236" y="505" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Rayleigh/Erlang</text>
+  <text x="1236" y="520" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">radar &bull; m&#233;dicas</text></g>
 <!-- OPS -->
-<g class="sn" onclick="op('ops')" data-tip="Ops. Aritmeticas y Logicas">
-<ellipse cx="987" cy="665" rx="70" ry="46" fill="url(#gb)" stroke="#a7c8f8" stroke-width="1.8"/>
-<text x="987" y="652" text-anchor="middle" font-size="18">&#9881;&#65039;</text>
-<text x="987" y="671" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="700" fill="#3a7dd4">Ops. Aritm&eacute;t.</text>
-<text x="987" y="686" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="700" fill="#3a7dd4">y L&oacute;gicas</text>
+<g class="sn" onclick="openPanel(\'ops\')" data-tip="Ops. Aritmeticas y Logicas">
+  <ellipse cx="987" cy="665" rx="70" ry="46" fill="url(#gb)" stroke="#a7c8f8" stroke-width="1.8"/>
+  <text x="987" y="652" text-anchor="middle" font-size="18">&#9881;</text>
+  <text x="987" y="672" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="700" fill="#3a7dd4">Ops. Aritm&#233;t.</text>
+  <text x="987" y="687" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="700" fill="#3a7dd4">y L&#243;gicas</text>
 </g>
-<g onclick="op('ops')" style="cursor:pointer"><rect x="1162" y="568" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/><text x="1178" y="588" font-size="12">&#10133;</text><text x="1226" y="588" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Suma / Resta</text><text x="1226" y="603" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">f+g &nbsp; |f&#8722;g|</text></g>
-<g onclick="op('ops')" style="cursor:pointer"><rect x="1162" y="641" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/><text x="1178" y="661" font-size="12">&#128256;</text><text x="1226" y="661" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">AND / OR / NOT</text><text x="1226" y="676" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">m&aacute;scaras binarias</text></g>
-<g onclick="op('ops')" style="cursor:pointer"><rect x="1162" y="730" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/><text x="1178" y="750" font-size="12">&#10006;&#65039;</text><text x="1226" y="750" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Mult / Divisi&oacute;n</text><text x="1226" y="765" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">blending &middot; flat-field</text></g>
-
-<text x="10" y="18" font-size="11" font-weight="700" fill="#c0487e" opacity=".8" font-family="Quicksand,sans-serif">U1 &mdash; Fundamentos PDI</text>
-<text x="1330" y="18" font-size="11" font-weight="700" fill="#7c4dbe" opacity=".8" text-anchor="end" font-family="Quicksand,sans-serif">U2 &mdash; An&aacute;lisis de Im&aacute;genes</text>
+<g onclick="openPanel(\'ops\')" style="cursor:pointer"><rect x="1162" y="568" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/>
+  <text x="1178" y="588" font-size="13">&#10133;</text><text x="1226" y="588" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Suma / Resta</text>
+  <text x="1226" y="603" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">f+g &bull; |f-g|</text></g>
+<g onclick="openPanel(\'ops\')" style="cursor:pointer"><rect x="1162" y="641" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/>
+  <text x="1178" y="661" font-size="13">&#128256;</text><text x="1226" y="661" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">AND / OR / NOT</text>
+  <text x="1226" y="676" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">m&#225;scaras binarias</text></g>
+<g onclick="openPanel(\'ops\')" style="cursor:pointer"><rect x="1162" y="730" width="128" height="48" rx="9" fill="#ddeeff" stroke="#a7c8f8" stroke-width="1.2"/>
+  <text x="1178" y="750" font-size="13">&#10006;</text><text x="1226" y="750" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#3a7dd4">Mult / Divisi&#243;n</text>
+  <text x="1226" y="765" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#888">blending &bull; flat-field</text></g>
+<text x="10" y="18" font-size="11" font-weight="700" fill="#c0487e" opacity=".8" font-family="Quicksand,sans-serif">U1 - Fundamentos PDI</text>
+<text x="1330" y="18" font-size="11" font-weight="700" fill="#7c4dbe" opacity=".8" text-anchor="end" font-family="Quicksand,sans-serif">U2 - Analisis de Imagenes</text>
 </svg>
 </div>
 
-<div id="cv"><div class="cg" id="cg"></div></div>
+<!-- CARDS -->
+<div id="cardsv"><div class="cg" id="cg"></div></div>
 
-<!-- PANEL -->
+<!-- PANEL LATERAL -->
 <div id="pnl">
-  <button id="pclose" onclick="cp()">&#10005;</button>
   <div id="ph">
     <h2 id="ptitle"></h2>
-    <span class="pu" id="punit"></span>
+    <span class="su" id="punit"></span>
+    <button id="pcl" onclick="closePanel()">&#10005;</button>
   </div>
   <div id="pdemo">
-    <canvas id="dc" width="330" height="120"></canvas>
+    <canvas id="dc" width="330" height="118"></canvas>
     <div class="dl" id="dlbl"></div>
   </div>
-  <div id="pform"></div>
-  <div id="pscroll" id="pscroll">
-    <div id="pitems"></div>
-  </div>
+  <div id="pformula"></div>
+  <div id="pextra"></div>
+  <div id="pitems"></div>
 </div>
 
 <script>
-// ============ DATA ============
-const D={
-img:{t:"Imagen Digital",u:"Unidad 1 · Fundamentos",c:"#f8a7c8",tc:"#c0487e",em:"🖼️",
-  f:"$f(x,y)$ — funcion intensidad espacial. Tamano $M\times N$ pixeles, rango $[0,\,2^k-1]$",
-  demo:demoGrid,dl:"Matriz de pixeles — valor de intensidad en cada celda",
-  items:[["Definicion","Funcion bidimensional f(x,y) donde el valor es la intensidad del pixel."],
-    ["Pixel","Unidad minima. Valor 0-255 (8 bits) = intensidad luminosa."],
-    ["Resolucion","PPI/DPI. Mayor resolucion = mayor detalle y mayor peso."],
-    ["Profundidad","1 bit=BN, 8 bits=256 tonos, 24 bits=16.7M colores RGB."],
-    ["Muestreo","Convertir imagen continua a discreta (rejilla de pixeles)."],
-    ["Cuantizacion","Asignar nivel entero a cada muestra. Mas niveles = mayor fidelidad."],
-    ["Tipos","Binaria, escala de grises, color RGB, multiespectral."]]},
-hist:{t:"Histograma",u:"Unidad 1 · Transformaciones de Intensidad",c:"#f8a7c8",tc:"#c0487e",em:"📊",
-  f:"$h(r_k)=n_k$ &nbsp;&nbsp; Ecualizacion: $s_k=(L-1)\displaystyle\sum_{j=0}^{k}\frac{n_j}{MN}$",
-  demo:demoHist,dl:"Distribucion de intensidades animada — cada barra = frecuencia del nivel",
-  items:[["Definicion","h(rk)=nk — cuantos pixeles tienen cada nivel de intensidad."],
-    ["Brillo","g = f + c desplaza el histograma horizontalmente."],
-    ["Contraste","g = a*f expande o comprime el rango del histograma."],
-    ["Ecualizacion","CDF acumulada para redistribuir a distribucion uniforme."],
-    ["Especificacion","Transforma hacia una distribucion de referencia (Rayleigh, exp...)."],
-    ["Distribuciones","Uniforme, Exponencial, Rayleigh, Hipercubica, Hiperbolica."],
-    ["Normalizacion","Divide entre el maximo para escalar a [0,1] o [0,255]."]]},
-color:{t:"Modelos de Color",u:"Unidad 1 · Representacion del Color",c:"#f8a7c8",tc:"#c0487e",em:"🎨",
-  f:"$RGB \to HSV:\; V=\max(R,G,B),\; S=\frac{V-\min}{V},\; H=60^\circ\cdot\frac{G-B}{V-\min}$",
-  demo:demoColor,dl:"Demo interactivo RGB — mueve los sliders para mezclar colores",
-  items:[["RGB","Rojo, Verde, Azul. Modelo aditivo de luz. Canal 0-255."],
-    ["CMY/CMYK","Cian, Magenta, Amarillo. Modelo sustractivo (impresion)."],
-    ["HSV","Hue (0-360), Saturation, Value. Mas intuitivo para humanos."],
-    ["HSI","Intensity = promedio de canales. Separa color de luminosidad."],
-    ["YCbCr","Y=luminancia, Cb/Cr=crominancia. Usado en JPEG y video."],
-    ["Conversion","S=(max-min)/max; V=max(R,G,B); H=arctan de componentes."],
-    ["Importancia","El modelo elegido impacta segmentacion, umbralizacion y analisis."]]},
-ai:{t:"Analisis de Imagenes",u:"Unidad 2 · Vision Artificial",c:"#c9a7f0",tc:"#7c4dbe",em:"🔬",
-  f:"Otsu: $\sigma_B^2(T)=\omega_0\omega_1(\mu_0-\mu_1)^2$ &nbsp; maximizar varianza entre clases",
-  demo:demoSeg,dl:"Segmentacion con umbral T ajustable — claro=objeto, oscuro=fondo",
-  items:[["Objetivo","Extraer informacion semantica: detectar objetos, medir formas."],
-    ["Segmentacion","Umbralizacion global y metodo de Otsu para umbral optimo."],
-    ["Deteccion bordes","Sobel, Prewitt, Canny (gradiente + supresion + histeresis)."],
-    ["Morfologia","Erosion y dilatacion sobre imagenes binarias."],
-    ["Descriptores","Area, perimetro, circularidad, momentos de Hu."],
-    ["Reconocimiento","Clasificar objetos segmentados. Base del reconocimiento de patrones."],
-    ["Pipeline","Adq. -> Preproc. -> Seg. -> Extraccion -> Clasificacion."]]},
-eti:{t:"Etiquetado Comp. Conexas",u:"Unidad 2 · Analisis Estructural",c:"#c9a7f0",tc:"#7c4dbe",em:"🏷️",
-  f:"$V_4(p)=\{(x\pm1,y),(x,y\pm1)\}$ &nbsp;&nbsp; $V_8$ agrega $\{(x\pm1,y\pm1)\}$",
-  demo:demoLabel,dl:"Etiquetado V8 — cada color = componente conexa distinta",
-  items:[["Objetivo","Identificar regiones aisladas en imagen binaria con etiquetas unicas."],
-    ["V4","4 vecinos: arriba, abajo, izquierda, derecha. Sin diagonales."],
-    ["V8","8 vecinos: incluye las 4 diagonales. Mas permisiva."],
-    ["Paradoja","Si fondo usa V4 los objetos usan V8 y viceversa."],
-    ["Alg. secuencial","1a pasada: etiquetas + equivalencias. 2a pasada: Union-Find."],
-    ["BFS","BFS desde cada pixel no etiquetado, misma etiqueta a vecinos."],
-    ["Aplicaciones","Conteo de objetos, area/perimetro por componente, blobs."]]},
-rui:{t:"Modelos de Ruido",u:"Unidad 2 · Degradacion y Restauracion",c:"#a7c8f8",tc:"#3a7dd4",em:"📡",
-  f:"Gaussiano: $p(z)=\dfrac{1}{\sqrt{2\pi}\,\sigma}\,e^{-\frac{(z-\mu)^2}{2\sigma^2}}$",
-  demo:demoNoise,dl:"Comparativa en tiempo real — limpia vs Gaussiano vs Sal y Pimienta",
-  items:[["Definicion","Variacion aleatoria no deseada en la intensidad de los pixeles."],
-    ["Gaussiano","Distribucion normal con mu y sigma2. Mas comun en sensores."],
-    ["Sal y Pimienta","Pixeles aleatorios toman 0 (pimienta) o 255 (sal)."],
-    ["Uniforme","Todos los valores de [a,b] igualmente probables."],
-    ["Rayleigh/Erlang","Rayleigh en radar; Erlang/Gamma en imagenes medicas."],
-    ["Estimacion","Se estima el modelo con el histograma de una region homogenea."],
-    ["Filtros","Media=Gaussiano; Mediana=Sal&Pim; Wiener=balance."]]},
-ops:{t:"Ops. Aritmeticas y Logicas",u:"Unidad 2 · Procesamiento Pixel a Pixel",c:"#a7c8f8",tc:"#3a7dd4",em:"⚙️",
-  f:"$h=f+g$ &nbsp; $h=|f-g|$ &nbsp; $h=f\cdot g$ &nbsp; $h=f/g$ &nbsp; AND &nbsp; OR &nbsp; NOT",
-  demo:demoOps,dl:"Demo suma A+B pixel a pixel — resultado h = (A+B)/2",
-  items:[["Concepto","Operaciones pixel a pixel entre imagenes del mismo tamano."],
-    ["Suma","h=f+g. Promediar N frames reduce ruido Gaussiano (SNR mejora raiz(N))."],
-    ["Resta","h=|f-g|. Detecta cambios entre fotogramas (motion detection)."],
-    ["Multiplicacion","h=f*g. Mascaras de interes, shading correction, blending."],
-    ["Division","h=f/g. Correccion de iluminacion no uniforme (flat-field)."],
-    ["AND/OR/NOT","Logicas sobre imagenes binarias. AND=interseccion, OR=union."],
-    ["XOR","Diferencia simetrica. Detecta pixeles que cambiaron entre dos binarias."]]}
+var histAnim=null, noiseTimer=null;
+
+var DATA = {
+  img:{
+    t:"Imagen Digital", u:"Unidad 1 \u00b7 Fundamentos", c:"#f8a7c8", tc:"#c0487e", em:"\uD83D\uDDBC\uFE0F",
+    f:"$f(x,y)$ \u2014 funci\u00f3n de intensidad espacial. Tama\u00f1o $M\\times N$ p\u00edxeles, rango $[0,\\,2^k-1]$",
+    demo:"grid", dl:"Matriz de p\u00edxeles \u2014 valor de intensidad en cada celda",
+    items:[
+      ["Definici\u00f3n","Funci\u00f3n bidimensional f(x,y) donde el valor es la intensidad del p\u00edxel."],
+      ["P\u00edxel","Unidad m\u00ednima. Valor 0-255 (8 bits) = intensidad luminosa."],
+      ["Resoluci\u00f3n","PPI/DPI. Mayor resoluci\u00f3n = mayor detalle y mayor peso de archivo."],
+      ["Profundidad","1 bit=BN, 8 bits=256 tonos, 24 bits=16.7M colores RGB."],
+      ["Muestreo","Convertir imagen continua a discreta (rejilla de p\u00edxeles)."],
+      ["Cuantizaci\u00f3n","Asignar nivel entero a cada muestra. M\u00e1s niveles = mayor fidelidad."],
+      ["Tipos","Binaria, escala de grises, color RGB, multiespectral."]
+    ]
+  },
+  hist:{
+    t:"Histograma", u:"Unidad 1 \u00b7 Transformaciones de Intensidad", c:"#f8a7c8", tc:"#c0487e", em:"\uD83D\uDCCA",
+    f:"$h(r_k)=n_k$ &nbsp; Ecualizaci\u00f3n: $s_k=(L-1)\\displaystyle\\sum_{j=0}^{k}\\frac{n_j}{MN}$",
+    demo:"hist", dl:"Distribuci\u00f3n de intensidades animada \u2014 barra = frecuencia del nivel",
+    items:[
+      ["Definici\u00f3n","h(rk)=nk \u2014 cu\u00e1ntos p\u00edxeles tienen cada nivel de intensidad."],
+      ["Brillo","g = f + c desplaza el histograma horizontalmente."],
+      ["Contraste","g = a\u00b7f expande o comprime el rango del histograma."],
+      ["Ecualizaci\u00f3n","CDF acumulada para redistribuir a distribuci\u00f3n uniforme."],
+      ["Especificaci\u00f3n","Transforma hacia una distribuci\u00f3n de referencia (Rayleigh, exp\u2026)."],
+      ["Distribuciones","Uniforme, Exponencial, Rayleigh, Hipebc\u00fabica, Hiperb\u00f3lica."],
+      ["Normalizaci\u00f3n","Divide entre el m\u00e1ximo para escalar a [0,1] o [0,255]."]
+    ]
+  },
+  color:{
+    t:"Modelos de Color", u:"Unidad 1 \u00b7 Representaci\u00f3n del Color", c:"#f8a7c8", tc:"#c0487e", em:"\uD83C\uDFA8",
+    f:"$RGB \\to HSV:\\; V=\\max(R,G,B),\\; S=\\frac{V-\\min}{V},\\; H=60^\\circ\\cdot\\frac{G-B}{V-\\min}$",
+    demo:"color", dl:"Demo interactivo RGB \u2014 mueve los sliders para mezclar colores",
+    items:[
+      ["RGB","Rojo, Verde, Azul. Modelo aditivo de luz. Canal 0-255."],
+      ["CMY/CMYK","Cian, Magenta, Amarillo. Modelo sustractivo (impresi\u00f3n)."],
+      ["HSV","Hue (0-360\u00b0), Saturation, Value. M\u00e1s intuitivo para humanos."],
+      ["HSI","Intensity = promedio de canales. Separa color de luminosidad."],
+      ["YCbCr","Y=luminancia, Cb/Cr=crominancia. Usado en JPEG y video."],
+      ["Conversi\u00f3n","S=(max-min)/max; V=max(R,G,B); H=arctan de componentes."],
+      ["Importancia","El modelo elegido impacta segmentaci\u00f3n, umbralizaci\u00f3n y an\u00e1lisis."]
+    ]
+  },
+  ai:{
+    t:"An\u00e1lisis de Im\u00e1genes", u:"Unidad 2 \u00b7 Visi\u00f3n Artificial", c:"#c9a7f0", tc:"#7c4dbe", em:"\uD83D\uDD2C",
+    f:"Otsu: $\\sigma_B^2(T)=\\omega_0\\omega_1(\\mu_0-\\mu_1)^2$ \u2014 maximizar varianza entre clases",
+    demo:"seg", dl:"Segmentaci\u00f3n con umbral T ajustable \u2014 claro=objeto, oscuro=fondo",
+    items:[
+      ["Objetivo","Extraer informaci\u00f3n sem\u00e1ntica: detectar objetos, medir formas."],
+      ["Segmentaci\u00f3n","Umbralizaci\u00f3n global y m\u00e9todo de Otsu para umbral \u00f3ptimo."],
+      ["Detecci\u00f3n bordes","Sobel, Prewitt, Canny (gradiente + supresi\u00f3n + hist\u00e9resis)."],
+      ["Morfolog\u00eda","Erosi\u00f3n y dilataci\u00f3n sobre im\u00e1genes binarias. Apertura y cierre."],
+      ["Descriptores","Area, per\u00edmetro, circularidad, momentos de Hu."],
+      ["Reconocimiento","Clasificar objetos segmentados. Base del reconocimiento de patrones."],
+      ["Pipeline","Adq.\u2192Preproc.\u2192Seg.\u2192Extracci\u00f3n\u2192Clasificaci\u00f3n\u2192Decisi\u00f3n."]
+    ]
+  },
+  eti:{
+    t:"Etiquetado Comp. Conexas", u:"Unidad 2 \u00b7 An\u00e1lisis Estructural", c:"#c9a7f0", tc:"#7c4dbe", em:"\uD83C\uDFF7\uFE0F",
+    f:"$V_4(p)=\\{(x\\pm1,y),(x,y\\pm1)\\}$ &nbsp;&nbsp; $V_8$ agrega $\\{(x\\pm1,y\\pm1)\\}$",
+    demo:"label", dl:"Etiquetado V8 \u2014 cada color = componente conexa distinta",
+    items:[
+      ["Objetivo","Identificar regiones aisladas en imagen binaria con etiquetas \u00fanicas."],
+      ["V4","4 vecinos: arriba, abajo, izquierda, derecha. Sin diagonales."],
+      ["V8","8 vecinos: incluye las 4 diagonales. M\u00e1s permisiva."],
+      ["Paradoja","Si fondo usa V4 los objetos usan V8 y viceversa."],
+      ["Alg. secuencial","1a pasada: etiquetas + equivalencias. 2a pasada: Union-Find."],
+      ["BFS","BFS desde cada p\u00edxel no etiquetado, misma etiqueta a vecinos."],
+      ["Aplicaciones","Conteo de objetos, \u00e1rea/per\u00edmetro por componente, blobs."]
+    ]
+  },
+  rui:{
+    t:"Modelos de Ruido", u:"Unidad 2 \u00b7 Degradaci\u00f3n y Restauraci\u00f3n", c:"#a7c8f8", tc:"#3a7dd4", em:"\uD83D\uDCE1",
+    f:"Gaussiano: $p(z)=\\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma}\\,e^{-\\frac{(z-\\mu)^2}{2\\sigma^2}}$",
+    demo:"noise", dl:"Limpia vs Gaussiano vs Sal y Pimienta \u2014 se regenera cada 2s",
+    items:[
+      ["Definici\u00f3n","Variaci\u00f3n aleatoria no deseada en la intensidad de los p\u00edxeles."],
+      ["Gaussiano","Distribuci\u00f3n normal con \u03bc y \u03c3\u00b2. M\u00e1s com\u00fan en sensores CCD/CMOS."],
+      ["Sal y Pimienta","P\u00edxeles aleatorios toman 0 (pimienta) o 255 (sal)."],
+      ["Uniforme","Todos los valores de [a,b] igualmente probables."],
+      ["Rayleigh/Erlang","Rayleigh en radar; Erlang/Gamma en im\u00e1genes m\u00e9dicas."],
+      ["Estimaci\u00f3n","Se estima el modelo con el histograma de una regi\u00f3n homog\u00e9nea."],
+      ["Filtros","Media\u2192Gaussiano; Mediana\u2192Sal&Pim; Wiener\u2192balance."]
+    ]
+  },
+  ops:{
+    t:"Ops. Aritm\u00e9ticas y L\u00f3gicas", u:"Unidad 2 \u00b7 Procesamiento P\u00edxel a P\u00edxel", c:"#a7c8f8", tc:"#3a7dd4", em:"\u2699\uFE0F",
+    f:"$h=f+g$ &nbsp; $h=|f-g|$ &nbsp; $h=f\\cdot g$ &nbsp; $h=f/g$ &nbsp; AND &nbsp; OR &nbsp; NOT",
+    demo:"ops", dl:"Demo suma A+B p\u00edxel a p\u00edxel \u2014 resultado h = (A+B)/2",
+    items:[
+      ["Concepto","Operaciones p\u00edxel a p\u00edxel entre im\u00e1genes del mismo tama\u00f1o."],
+      ["Suma","h=f+g. Promediar N frames reduce ruido Gaussiano (\u221aN veces)."],
+      ["Resta","h=|f-g|. Detecta cambios entre fotogramas (motion detection)."],
+      ["Multiplicaci\u00f3n","h=f\u00b7g. M\u00e1scaras de inter\u00e9s, shading correction, blending."],
+      ["Divisi\u00f3n","h=f/g. Correcci\u00f3n de iluminaci\u00f3n no uniforme (flat-field)."],
+      ["AND/OR/NOT","L\u00f3gicas sobre im\u00e1genes binarias. AND=intersecci\u00f3n, OR=uni\u00f3n."],
+      ["XOR","Diferencia sim\u00e9trica. Detecta p\u00edxeles que cambiaron entre dos binarias."]
+    ]
+  }
 };
 
-//  DEMOS CANVAS 
-function demoGrid(cv){
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+// ===== DEMOS =====
+function runDemo(key, cv) {
+  if(histAnim){ clearInterval(histAnim); histAnim=null; }
+  if(noiseTimer){ clearInterval(noiseTimer); noiseTimer=null; }
+  var demos = { grid:demoGrid, hist:demoHist, color:demoColor, seg:demoSeg, label:demoLabel, noise:demoNoise, ops:demoOps };
+  demos[DATA[key].demo](cv);
+}
+
+function demoGrid(cv) {
+  var ctx=cv.getContext("2d"), W=cv.width, H=cv.height;
   ctx.clearRect(0,0,W,H);
-  const v=[[45,80,120,200,230,180,100,55],[60,100,160,220,240,200,130,70],[80,130,190,230,255,220,160,90],[100,160,210,240,255,240,190,110],[90,140,200,230,245,225,170,100]];
-  const cw=Math.floor(W/8),ch=Math.floor(H/5);
-  for(let r=0;r<5;r++) for(let c=0;c<8;c++){
-    const n=v[r][c];
-    ctx.fillStyle='rgb('+n+','+Math.round(n*.7+40)+','+Math.round(n*.85+40)+')';
-    ctx.fillRect(c*cw,r*ch,cw-1,ch-1);
-    ctx.fillStyle=n>140?'#222':'#eee';
-    ctx.font='bold 9px Nunito,sans-serif';ctx.textAlign='center';
-    ctx.fillText(n,c*cw+cw/2,r*ch+ch/2+4);
+  var v=[[45,80,120,200,230,180,100,55],[60,100,160,220,240,200,130,70],[80,130,190,230,255,220,160,90],[100,160,210,240,255,240,190,110],[90,140,200,230,245,225,170,100]];
+  var cw=Math.floor(W/8), ch=Math.floor(H/5);
+  for(var r=0;r<5;r++) for(var c=0;c<8;c++){
+    var n=v[r][c];
+    ctx.fillStyle="rgb("+n+","+Math.round(n*.7+40)+","+Math.round(n*.85+40)+")";
+    ctx.fillRect(c*cw, r*ch, cw-1, ch-1);
+    ctx.fillStyle=n>140?"#222":"#eee";
+    ctx.font="bold 9px sans-serif"; ctx.textAlign="center";
+    ctx.fillText(n, c*cw+cw/2, r*ch+ch/2+4);
   }
 }
 
-let histAnim=null;
-function demoHist(cv){
-  if(histAnim) clearInterval(histAnim);
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
-  const bins=26,bw=Math.floor((W-20)/bins);
-  const targets=[];
-  for(let i=0;i<bins;i++){const x=(i-bins/2)/(bins/5.5);targets.push(Math.round(85*Math.exp(-.5*x*x)));}
-  const curr=new Array(bins).fill(0);
-  histAnim=setInterval(()=>{
-    let done=true;
-    for(let i=0;i<bins;i++){if(curr[i]<targets[i]){curr[i]=Math.min(curr[i]+3,targets[i]);done=false;}}
-    ctx.clearRect(0,0,W,H);
-    const mx=Math.max(...curr);
-    for(let i=0;i<bins;i++){
-      const bh=Math.round((curr[i]/mx)*(H-28));
-      const g=ctx.createLinearGradient(0,H-28,0,H-28-bh);
-      g.addColorStop(0,'#c0487e');g.addColorStop(1,'#f8a7c8');
-      ctx.fillStyle=g;ctx.fillRect(i*bw+10,H-28-bh,bw-1,bh);
-    }
-    ctx.strokeStyle='#ddd';ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(10,2);ctx.lineTo(10,H-26);ctx.lineTo(W-4,H-26);ctx.stroke();
-    ctx.fillStyle='#999';ctx.font='9px Nunito,sans-serif';ctx.textAlign='center';
-    ctx.fillText('0',14,H-14);ctx.fillText('128',W/2,H-14);ctx.fillText('255',W-10,H-14);
-    if(done) clearInterval(histAnim);
-  },30);
-}
-
-let colorSliders=null;
-function demoColor(cv){
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
-  colorSliders={r:180,g:80,b:200};
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    const R=colorSliders.r,G=colorSliders.g,B=colorSliders.b;
-    // background
-    ctx.fillStyle='#f8f4ff';ctx.fillRect(0,0,W,H);
-    // big color swatch
-    ctx.fillStyle='rgb('+R+','+G+','+B+')';
-    ctx.beginPath();ctx.roundRect(8,8,W/2-12,H-16,8);ctx.fill();
-    // RGB bars
-    const bx=W/2+4,bw2=W-bx-8,bh=14;
-    [[R,'#ff6688','R'],[G,'#44cc88','G'],[B,'#5599ff','B']].forEach(([v,cl,lb],i)=>{
-      const y=14+i*30;
-      ctx.fillStyle='#eee';ctx.beginPath();ctx.roundRect(bx,y,bw2,bh,4);ctx.fill();
-      ctx.fillStyle=cl;ctx.beginPath();ctx.roundRect(bx,y,Math.round(bw2*v/255),bh,4);ctx.fill();
-      ctx.fillStyle='#333';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';
-      ctx.fillText(lb+': '+v,bx+4,y+bh-2);
-    });
-    // HSV info
-    const Mx=Math.max(R,G,B),mn=Math.min(R,G,B);
-    const V=Math.round(Mx/255*100),S=Mx>0?Math.round((Mx-mn)/Mx*100):0;
-    let H2=0;if(Mx!==mn){if(Mx===R)H2=60*((G-B)/(Mx-mn)%6);else if(Mx===G)H2=60*((B-R)/(Mx-mn)+2);else H2=60*((R-G)/(Mx-mn)+4);}
-    H2=Math.round(H2<0?H2+360:H2);
-    ctx.fillStyle='#666';ctx.font='9px Nunito,sans-serif';ctx.textAlign='left';
-    ctx.fillText('H:'+H2+'  S:'+S+'%  V:'+V+'%',bx+2,H-6);
+function demoHist(cv) {
+  var ctx=cv.getContext("2d"), W=cv.width, H=cv.height;
+  var bins=26, bw=Math.floor((W-20)/bins);
+  var targets=[], curr=[];
+  for(var i=0;i<bins;i++){
+    var x=(i-bins/2)/(bins/5.5);
+    targets.push(Math.round(85*Math.exp(-.5*x*x)));
+    curr.push(0);
   }
-  draw();
-  // store draw for slider use
-  cv._draw=draw;cv._cs=colorSliders;
-}
-
-let segT=120,segAnim=null;
-function demoSeg(cv){
-  if(segAnim) clearInterval(segAnim);
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
-  function drawSeg(T){
+  histAnim=setInterval(function(){
+    var done=true;
+    for(var i=0;i<bins;i++){ if(curr[i]<targets[i]){ curr[i]=Math.min(curr[i]+3,targets[i]); done=false; } }
     ctx.clearRect(0,0,W,H);
-    const half=Math.floor(W/2)-3;
-    for(let x=0;x<half;x++) for(let y=0;y<H-16;y++){
-      const d=Math.sqrt((x-half*.42)*(x-half*.42)+(y-(H-16)*.5)*(y-(H-16)*.5));
-      const n=Math.max(0,Math.min(255,255-d*3));
-      ctx.fillStyle='rgb('+Math.round(n*.9)+','+Math.round(n*.7)+','+n+')';
-      ctx.fillRect(x,y,1,1);
+    var mx=Math.max.apply(null,curr);
+    for(var i=0;i<bins;i++){
+      var bh=Math.round((curr[i]/mx)*(H-28));
+      var g=ctx.createLinearGradient(0,H-28,0,H-28-bh);
+      g.addColorStop(0,"#c0487e"); g.addColorStop(1,"#f8a7c8");
+      ctx.fillStyle=g;
+      ctx.fillRect(i*bw+10, H-28-bh, bw-1, bh);
     }
-    for(let x=half+6;x<W;x++) for(let y=0;y<H-16;y++){
-      const d=Math.sqrt((x-half-6-half*.42)*(x-half-6-half*.42)+(y-(H-16)*.5)*(y-(H-16)*.5));
-      const n=Math.max(0,Math.min(255,255-d*3));
-      ctx.fillStyle=n>T?'#ede1ff':'#7c4dbe';ctx.fillRect(x,y,1,1);
-    }
-    ctx.fillStyle='rgba(0,0,0,.4)';ctx.fillRect(0,H-16,W,16);
-    ctx.fillStyle='#fff';ctx.font='bold 9px Nunito,sans-serif';ctx.textAlign='center';
-    ctx.fillText('Original',half/2,H-5);
-    ctx.fillText('Umbral T='+T,half+6+(W-half-6)/2,H-5);
-    ctx.strokeStyle='#fff';ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.moveTo(half+3,0);ctx.lineTo(half+3,H-16);ctx.stroke();
-  }
-  drawSeg(segT);
-  cv._drawSeg=drawSeg;
+    ctx.strokeStyle="#ddd"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(10,2); ctx.lineTo(10,H-26); ctx.lineTo(W-4,H-26); ctx.stroke();
+    ctx.fillStyle="#999"; ctx.font="9px sans-serif"; ctx.textAlign="center";
+    ctx.fillText("0",14,H-14); ctx.fillText("128",W/2,H-14); ctx.fillText("255",W-10,H-14);
+    if(done){ clearInterval(histAnim); histAnim=null; }
+  }, 30);
 }
 
-function demoLabel(cv){
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+var colorState={r:180,g:80,b:200};
+function demoColor(cv) {
+  colorState={r:180,g:80,b:200};
+  drawColor(cv);
+}
+function drawColor(cv){
+  var ctx=cv.getContext("2d"), W=cv.width, H=cv.height;
+  var R=colorState.r, G=colorState.g, B=colorState.b;
   ctx.clearRect(0,0,W,H);
-  ctx.fillStyle='#f5f0ff';ctx.fillRect(0,0,W,H);
-  const grid=[[0,1,1,0,0,0,1,1,1,0,0,1,0],[0,1,1,0,0,0,1,0,1,0,0,1,0],[0,1,1,0,0,0,1,1,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[1,1,0,0,1,0,0,0,0,1,1,1,0],[1,1,0,0,1,0,0,0,0,1,0,1,0],[0,0,0,0,1,0,0,0,0,1,1,1,0]];
-  const lbs=grid.map(r=>r.map(()=>0));let l=1;
-  for(let r=0;r<7;r++) for(let c=0;c<13;c++){
+  ctx.fillStyle="#f8f4ff"; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="rgb("+R+","+G+","+B+")";
+  ctx.beginPath(); ctx.roundRect(8,8,W/2-12,H-16,8); ctx.fill();
+  var bx=W/2+6, bw2=W-bx-8, bh=14;
+  [[R,"#ff6688","R"],[G,"#44cc88","G"],[B,"#5599ff","B"]].forEach(function(arr,i){
+    var vv=arr[0], cl=arr[1], lb=arr[2], y=14+i*30;
+    ctx.fillStyle="#eee"; ctx.beginPath(); ctx.roundRect(bx,y,bw2,bh,4); ctx.fill();
+    ctx.fillStyle=cl; ctx.beginPath(); ctx.roundRect(bx,y,Math.round(bw2*vv/255),bh,4); ctx.fill();
+    ctx.fillStyle="#333"; ctx.font="bold 10px sans-serif"; ctx.textAlign="left";
+    ctx.fillText(lb+": "+vv, bx+4, y+bh-2);
+  });
+  var Mx=Math.max(R,G,B), mn=Math.min(R,G,B);
+  var V=Math.round(Mx/255*100), S=Mx>0?Math.round((Mx-mn)/Mx*100):0;
+  var H2=0;
+  if(Mx!==mn){ if(Mx===R)H2=60*((G-B)/(Mx-mn)%6); else if(Mx===G)H2=60*((B-R)/(Mx-mn)+2); else H2=60*((R-G)/(Mx-mn)+4); }
+  H2=Math.round(H2<0?H2+360:H2);
+  ctx.fillStyle="#666"; ctx.font="9px sans-serif"; ctx.textAlign="left";
+  ctx.fillText("H:"+H2+"  S:"+S+"%  V:"+V+"%", bx+2, H-5);
+}
+
+function demoSeg(cv) {
+  drawSeg(cv, 120);
+}
+function drawSeg(cv, T) {
+  var ctx=cv.getContext("2d"), W=cv.width, H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  var half=Math.floor(W/2)-3;
+  for(var x=0;x<half;x++) for(var y=0;y<H-16;y++){
+    var d=Math.sqrt((x-half*.42)*(x-half*.42)+(y-(H-16)*.5)*(y-(H-16)*.5));
+    var n=Math.max(0,Math.min(255,255-d*3));
+    ctx.fillStyle="rgb("+Math.round(n*.9)+","+Math.round(n*.7)+","+n+")";
+    ctx.fillRect(x,y,1,1);
+  }
+  for(var x=half+6;x<W;x++) for(var y=0;y<H-16;y++){
+    var d=Math.sqrt((x-half-6-half*.42)*(x-half-6-half*.42)+(y-(H-16)*.5)*(y-(H-16)*.5));
+    var n=Math.max(0,Math.min(255,255-d*3));
+    ctx.fillStyle=n>T?"#ede1ff":"#7c4dbe"; ctx.fillRect(x,y,1,1);
+  }
+  ctx.fillStyle="rgba(0,0,0,.4)"; ctx.fillRect(0,H-16,W,16);
+  ctx.fillStyle="#fff"; ctx.font="bold 9px sans-serif"; ctx.textAlign="center";
+  ctx.fillText("Original",half/2,H-5);
+  ctx.fillText("Umbral T="+T, half+6+(W-half-6)/2, H-5);
+  ctx.strokeStyle="#fff"; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(half+3,0); ctx.lineTo(half+3,H-16); ctx.stroke();
+}
+
+function demoLabel(cv) {
+  var ctx=cv.getContext("2d"), W=cv.width, H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle="#f5f0ff"; ctx.fillRect(0,0,W,H);
+  var grid=[[0,1,1,0,0,0,1,1,1,0,0,1,0],[0,1,1,0,0,0,1,0,1,0,0,1,0],[0,1,1,0,0,0,1,1,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[1,1,0,0,1,0,0,0,0,1,1,1,0],[1,1,0,0,1,0,0,0,0,1,0,1,0],[0,0,0,0,1,0,0,0,0,1,1,1,0]];
+  var lbs=grid.map(function(r){return r.map(function(){return 0;});});
+  var l=1;
+  for(var r=0;r<7;r++) for(var c=0;c<13;c++){
     if(grid[r][c]===1&&lbs[r][c]===0){
-      const q=[[r,c]];lbs[r][c]=l;
-      while(q.length){const[cr,cc]=q.shift();for(const[dr,dc] of[[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[-1,1],[1,-1],[1,1]]){const nr=cr+dr,nc=cc+dc;if(nr>=0&&nr<7&&nc>=0&&nc<13&&grid[nr][nc]===1&&lbs[nr][nc]===0){lbs[nr][nc]=l;q.push([nr,nc]);}}}
+      var q=[[r,c]]; lbs[r][c]=l;
+      while(q.length){
+        var p=q.shift(), cr=p[0], cc=p[1];
+        var dirs=[[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[-1,1],[1,-1],[1,1]];
+        for(var di=0;di<dirs.length;di++){
+          var nr=cr+dirs[di][0], nc=cc+dirs[di][1];
+          if(nr>=0&&nr<7&&nc>=0&&nc<13&&grid[nr][nc]===1&&lbs[nr][nc]===0){lbs[nr][nc]=l;q.push([nr,nc]);}
+        }
+      }
       l++;
     }
   }
-  const cols=['#f8a7c8','#c9a7f0','#a7c8f8','#ffd6a7','#b5ead7'];
-  const cw=Math.floor(W/13),ch=Math.floor((H-16)/7);
-  for(let r=0;r<7;r++) for(let c=0;c<13;c++){
-    ctx.fillStyle=grid[r][c]===0?'#e8e0f5':cols[(lbs[r][c]-1)%cols.length];
+  var cols=["#f8a7c8","#c9a7f0","#a7c8f8","#ffd6a7","#b5ead7"];
+  var cw=Math.floor(W/13), ch=Math.floor((H-16)/7);
+  for(var r=0;r<7;r++) for(var c=0;c<13;c++){
+    ctx.fillStyle=grid[r][c]===0?"#e8e0f5":cols[(lbs[r][c]-1)%cols.length];
     ctx.fillRect(c*cw+1,r*ch+1,cw-1,ch-1);
-    if(grid[r][c]===1){ctx.fillStyle='#fff';ctx.font='bold 8px Nunito';ctx.textAlign='center';ctx.fillText(lbs[r][c],c*cw+cw/2,r*ch+ch/2+3);}
+    if(grid[r][c]===1){ctx.fillStyle="#fff";ctx.font="bold 8px sans-serif";ctx.textAlign="center";ctx.fillText(lbs[r][c],c*cw+cw/2,r*ch+ch/2+3);}
   }
-  ctx.fillStyle='rgba(0,0,0,.4)';ctx.fillRect(0,H-16,W,16);
-  ctx.fillStyle='#fff';ctx.font='9px Nunito';ctx.textAlign='center';
-  ctx.fillText((l-1)+' componentes conexas etiquetadas con V8',W/2,H-5);
+  ctx.fillStyle="rgba(0,0,0,.4)"; ctx.fillRect(0,H-16,W,16);
+  ctx.fillStyle="#fff"; ctx.font="9px sans-serif"; ctx.textAlign="center";
+  ctx.fillText((l-1)+" componentes conexas etiquetadas con V8",W/2,H-5);
 }
 
-let noiseTimer=null;
-function demoNoise(cv){
-  if(noiseTimer) clearInterval(noiseTimer);
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
-  function drawNoise(){
+function demoNoise(cv) {
+  function draw(){
+    var ctx=cv.getContext("2d"), W=cv.width, H=cv.height;
     ctx.clearRect(0,0,W,H);
-    const pw=Math.floor(W/3)-2;
-    const lbls=['Limpia','Gaussiano','Sal & Pim.'];
-    for(let p=0;p<3;p++){
-      const x0=p*(pw+3);
-      const img=ctx.createImageData(pw,H-16);
-      for(let i=0;i<pw*(H-16);i++){
-        const px=i%pw,py=Math.floor(i/pw);
-        let n=Math.round(80+90*Math.sin(px/pw*Math.PI)*Math.cos(py/(H-16)*Math.PI*1.4)+60);
-        if(p===1){const g=(Math.random()+Math.random()+Math.random()-1.5)*38;n=Math.max(0,Math.min(255,n+g));}
-        else if(p===2){const rv=Math.random();if(rv<.06)n=0;else if(rv<.12)n=255;}
-        img.data[i*4]=Math.round(n*.9);img.data[i*4+1]=Math.round(n*.7+30);img.data[i*4+2]=n;img.data[i*4+3]=255;
+    var pw=Math.floor(W/3)-2;
+    var lbls=["Limpia","Gaussiano","Sal & Pim."];
+    for(var p=0;p<3;p++){
+      var x0=p*(pw+3);
+      var img=ctx.createImageData(pw,H-16);
+      for(var i=0;i<pw*(H-16);i++){
+        var px=i%pw, py=Math.floor(i/pw);
+        var n=Math.round(80+90*Math.sin(px/pw*Math.PI)*Math.cos(py/(H-16)*Math.PI*1.4)+60);
+        if(p===1){var g=(Math.random()+Math.random()+Math.random()-1.5)*38;n=Math.max(0,Math.min(255,n+g));}
+        else if(p===2){var rv=Math.random();if(rv<.06)n=0;else if(rv<.12)n=255;}
+        img.data[i*4]=Math.round(n*.9); img.data[i*4+1]=Math.round(n*.7+30); img.data[i*4+2]=n; img.data[i*4+3]=255;
       }
       ctx.putImageData(img,x0,0);
-      ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(x0,H-16,pw,16);
-      ctx.fillStyle='#fff';ctx.font='bold 9px Nunito';ctx.textAlign='center';ctx.fillText(lbls[p],x0+pw/2,H-5);
+      ctx.fillStyle="rgba(0,0,0,.5)"; ctx.fillRect(x0,H-16,pw,16);
+      ctx.fillStyle="#fff"; ctx.font="bold 9px sans-serif"; ctx.textAlign="center";
+      ctx.fillText(lbls[p],x0+pw/2,H-5);
     }
   }
-  drawNoise();
-  noiseTimer=setInterval(drawNoise,1800);
+  draw();
+  noiseTimer=setInterval(draw,2000);
 }
 
-function demoOps(cv){
-  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+function demoOps(cv) {
+  var ctx=cv.getContext("2d"), W=cv.width, H=cv.height;
   ctx.clearRect(0,0,W,H);
-  ctx.fillStyle='#f5f0ff';ctx.fillRect(0,0,W,H);
-  const bw=72,bh=58,ay=8,by=8;
-  const ax=8,bx=W-bw-8;
-  for(let y=0;y<bh;y++) for(let x=0;x<bw;x++){
-    ctx.fillStyle='rgb('+Math.round(200*x/bw+55)+','+Math.round(100*y/bh+80)+',180)';ctx.fillRect(ax+x,ay+y,1,1);}
-  ctx.fillStyle='#c0487e';ctx.font='bold 10px Nunito';ctx.textAlign='center';ctx.fillText('A',ax+bw/2,ay+bh+11);
-  ctx.fillStyle='#7c4dbe';ctx.font='bold 20px Nunito';ctx.textAlign='center';ctx.fillText('+',W/2,ay+bh/2+8);
-  for(let y=0;y<bh;y++) for(let x=0;x<bw;x++){
-    ctx.fillStyle='rgb(100,'+Math.round(180*(1-x/bw)+40)+','+Math.round(200*y/bh+55)+')';ctx.fillRect(bx+x,by+y,1,1);}
-  ctx.fillStyle='#3a7dd4';ctx.font='bold 10px Nunito';ctx.textAlign='center';ctx.fillText('B',bx+bw/2,by+bh+11);
-  const rx=(W-bw)/2,ry=H-bh-6;
-  for(let y=0;y<bh;y++) for(let x=0;x<bw;x++){
-    const va=Math.round(200*x/bw+55),vb=100;
-    ctx.fillStyle='rgb('+Math.min(255,Math.round((va+vb)/2))+','+Math.min(255,120)+',180)';ctx.fillRect(rx+x,ry+y,1,1);}
-  ctx.fillStyle='#555';ctx.font='bold 9px Nunito';ctx.textAlign='center';ctx.fillText('h = (A+B)/2',rx+bw/2,ry-4);
-  ctx.strokeStyle='#c9a7f0';ctx.lineWidth=1.2;ctx.setLineDash([3,2]);
-  ctx.beginPath();ctx.moveTo(ax+bw/2,ay+bh+14);ctx.lineTo(rx+bw/2,ry);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(bx+bw/2,by+bh+14);ctx.lineTo(rx+bw/2,ry);ctx.stroke();
+  ctx.fillStyle="#f5f0ff"; ctx.fillRect(0,0,W,H);
+  var bw=68, bh=54, ax=8, ay=8, bx=W-bw-8, by=8;
+  for(var y=0;y<bh;y++) for(var x=0;x<bw;x++){
+    ctx.fillStyle="rgb("+Math.round(200*x/bw+55)+","+Math.round(100*y/bh+80)+",180)";
+    ctx.fillRect(ax+x,ay+y,1,1);
+  }
+  ctx.fillStyle="#c0487e"; ctx.font="bold 10px sans-serif"; ctx.textAlign="center";
+  ctx.fillText("A",ax+bw/2,ay+bh+11);
+  ctx.fillStyle="#7c4dbe"; ctx.font="bold 20px sans-serif";
+  ctx.fillText("+",W/2,ay+bh/2+8);
+  for(var y=0;y<bh;y++) for(var x=0;x<bw;x++){
+    ctx.fillStyle="rgb(100,"+Math.round(180*(1-x/bw)+40)+","+Math.round(200*y/bh+55)+")";
+    ctx.fillRect(bx+x,by+y,1,1);
+  }
+  ctx.fillStyle="#3a7dd4"; ctx.font="bold 10px sans-serif";
+  ctx.fillText("B",bx+bw/2,by+bh+11);
+  var rx=Math.round((W-bw)/2), ry=H-bh-6;
+  for(var y=0;y<bh;y++) for(var x=0;x<bw;x++){
+    var va=Math.round(200*x/bw+55);
+    ctx.fillStyle="rgb("+Math.min(255,Math.round((va+100)/2))+","+Math.min(255,110)+",180)";
+    ctx.fillRect(rx+x,ry+y,1,1);
+  }
+  ctx.fillStyle="#555"; ctx.font="bold 9px sans-serif"; ctx.textAlign="center";
+  ctx.fillText("h = (A+B)/2",rx+bw/2,ry-4);
+  ctx.strokeStyle="#c9a7f0"; ctx.lineWidth=1.2; ctx.setLineDash([3,2]);
+  ctx.beginPath(); ctx.moveTo(ax+bw/2,ay+bh+13); ctx.lineTo(rx+bw/2,ry); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(bx+bw/2,by+bh+13); ctx.lineTo(rx+bw/2,ry); ctx.stroke();
   ctx.setLineDash([]);
 }
 
-//  PANEL EXTRAS 
-function extraFor(key,cv){
-  const pf=document.getElementById('pform');
-  if(key==='color'){
-    pf.innerHTML='<div style="padding:4px 0"><div class="srow"><label>R</label><input type="range" min="0" max="255" value="180" id="sr" oninput="updColor()"><span id="vr">180</span></div><div class="srow"><label>G</label><input type="range" min="0" max="255" value="80" id="sg" oninput="updColor()"><span id="vg">80</span></div><div class="srow"><label>B</label><input type="range" min="0" max="255" value="200" id="sb" oninput="updColor()"><span id="vb2">200</span></div></div>';
-  } else if(key==='ai'){
-    pf.innerHTML='<div class="srow"><label>T</label><input type="range" min="30" max="240" value="120" id="st" oninput="updSeg()"><span id="vt">120</span></div>';
-  } else {
-    pf.innerHTML='';
-  }
-}
-window.updColor=function(){
-  const r=+document.getElementById('sr').value,g=+document.getElementById('sg').value,b=+document.getElementById('sb').value;
-  document.getElementById('vr').textContent=r;document.getElementById('vg').textContent=g;document.getElementById('vb2').textContent=b;
-  const cv=document.getElementById('dc');
-  if(cv._cs){cv._cs.r=r;cv._cs.g=g;cv._cs.b=b;}
-  if(cv._draw) cv._draw();
-};
-window.updSeg=function(){
-  const t=+document.getElementById('st').value;
-  document.getElementById('vt').textContent=t;
-  const cv=document.getElementById('dc');
-  if(cv._drawSeg) cv._drawSeg(t);
-};
+// ===== PANEL =====
+function openPanel(key) {
+  var d=DATA[key];
+  document.getElementById("ptitle").textContent=d.t;
+  document.getElementById("ptitle").style.color=d.tc;
+  document.getElementById("punit").textContent=d.u;
+  document.getElementById("pnl").style.borderLeftColor=d.c;
 
-//  PANEL OPEN/CLOSE 
-function op(key){
-  if(histAnim) clearInterval(histAnim);
-  if(noiseTimer) clearInterval(noiseTimer);
-  const d=D[key],pnl=document.getElementById('pnl');
-  document.getElementById('ptitle').textContent=d.t;
-  document.getElementById('ptitle').style.color=d.tc;
-  document.getElementById('punit').textContent=d.u;
-  pnl.style.borderLeftColor=d.c;
-  const fbox=document.getElementById('pform');
-  fbox.style.background=d.c+'33';
-  extraFor(key);
-  // formula after extra (may overwrite pform — we want formula in a dedicated div)
-  // Actually formula goes in pform temporarily then we inject via MathJax
-  const fEl=document.createElement('div');
-  fEl.style.cssText='padding:6px 18px;border-bottom:1px solid #eee;font-size:12px;text-align:center;color:'+d.tc+';background:'+d.c+'22;flex-shrink:0;';
-  fEl.id='fformula';fEl.innerHTML=d.f;
-  const existing=document.getElementById('fformula');
-  if(existing) existing.remove();
-  document.getElementById('pnl').insertBefore(fEl,document.getElementById('pscroll'));
+  // formula
+  var fEl=document.getElementById("pformula");
+  fEl.style.background=d.c+"22";
+  fEl.style.color=d.tc;
+  fEl.innerHTML=d.f;
   if(window.MathJax) MathJax.typesetPromise([fEl]);
-  // demo
-  const cv=document.getElementById('dc');
-  document.getElementById('dlbl').textContent=d.dl;
-  d.demo(cv);
-  // items
-  document.getElementById('pitems').innerHTML=d.items.map(([l,t])=>{
-    return `<div class="di"><div class="dd" style="background:${d.c}"></div><p><strong>${l}:</strong> ${t}</p></div>`;
-  }).join('');
-  pnl.classList.add('open');
-}
-function cp(){
-  if(histAnim) clearInterval(histAnim);
-  if(noiseTimer) clearInterval(noiseTimer);
-  document.getElementById('pnl').classList.remove('open');
-}
-window.cp=cp;
 
-//  TOOLTIP 
-const tip=document.getElementById('tip');
-document.querySelectorAll('[data-tip]').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{tip.textContent=el.getAttribute('data-tip')+' — clic para demo';tip.style.opacity='1';});
-  el.addEventListener('mousemove',e=>{tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-34)+'px';});
-  el.addEventListener('mouseleave',()=>{tip.style.opacity='0';});
+  // extra controls
+  var ex=document.getElementById("pextra");
+  ex.innerHTML="";
+  if(key==="color"){
+    ex.innerHTML="<div class=\'srow\'><label>R</label><input type=\'range\' min=\'0\' max=\'255\' value=\'180\' id=\'sr\' oninput=\'updC()\'><span id=\'vr\'>180</span></div><div class=\'srow\'><label>G</label><input type=\'range\' min=\'0\' max=\'255\' value=\'80\' id=\'sg\' oninput=\'updC()\'><span id=\'vg\'>80</span></div><div class=\'srow\'><label>B</label><input type=\'range\' min=\'0\' max=\'255\' value=\'200\' id=\'sb\' oninput=\'updC()\'><span id=\'vb2\'>200</span></div>";
+  } else if(key==="ai"){
+    ex.innerHTML="<div class=\'srow\'><label>T</label><input type=\'range\' min=\'20\' max=\'240\' value=\'120\' id=\'st\' oninput=\'updS()\'><span id=\'vt\'>120</span></div>";
+  }
+
+  // demo
+  var cv=document.getElementById("dc");
+  document.getElementById("dlbl").textContent=d.dl;
+  runDemo(key, cv);
+
+  // items
+  var html="";
+  for(var i=0;i<d.items.length;i++){
+    html+="<div class=\'di\'><div class=\'dd\' style=\'background:"+d.c+"\'></div><p><strong>"+d.items[i][0]+":</strong> "+d.items[i][1]+"</p></div>";
+  }
+  document.getElementById("pitems").innerHTML=html;
+
+  document.getElementById("overlay").className="show";
+  document.getElementById("pnl").className="show";
+}
+
+function closePanel() {
+  if(histAnim){clearInterval(histAnim);histAnim=null;}
+  if(noiseTimer){clearInterval(noiseTimer);noiseTimer=null;}
+  document.getElementById("overlay").className="";
+  document.getElementById("pnl").className="";
+}
+
+window.updC=function(){
+  var r=+document.getElementById("sr").value, g=+document.getElementById("sg").value, b=+document.getElementById("sb").value;
+  document.getElementById("vr").textContent=r;
+  document.getElementById("vg").textContent=g;
+  document.getElementById("vb2").textContent=b;
+  colorState.r=r; colorState.g=g; colorState.b=b;
+  drawColor(document.getElementById("dc"));
+};
+window.updS=function(){
+  var t=+document.getElementById("st").value;
+  document.getElementById("vt").textContent=t;
+  drawSeg(document.getElementById("dc"),t);
+};
+
+// ===== TOOLTIP =====
+var tip=document.getElementById("tooltip");
+document.querySelectorAll("[data-tip]").forEach(function(el){
+  el.addEventListener("mouseenter",function(){tip.textContent=el.getAttribute("data-tip")+" \u2014 clic para ver demo";tip.style.opacity="1";});
+  el.addEventListener("mousemove",function(e){tip.style.left=(e.clientX+14)+"px";tip.style.top=(e.clientY-34)+"px";});
+  el.addEventListener("mouseleave",function(){tip.style.opacity="0";});
 });
 
-//  VIEW SWITCH 
-function sv(v){
-  document.getElementById('mapv').style.display=v==='map'?'block':'none';
-  document.getElementById('cv').style.display=v==='cards'?'block':'none';
-  document.getElementById('bmap').classList.toggle('on',v==='map');
-  document.getElementById('bcards').classList.toggle('on',v==='cards');
-  if(v==='cards') buildCards();
+// ===== VIEW SWITCH =====
+function switchView(v){
+  document.getElementById("mapv").style.display=v==="map"?"block":"none";
+  document.getElementById("cardsv").style.display=v==="cards"?"block":"none";
+  document.getElementById("bmap").className="btn"+(v==="map"?" on":"");
+  document.getElementById("bcards").className="btn"+(v==="cards"?" on":"");
+  if(v==="cards") buildCards();
 }
-const bgm={img:'#fde2ef',hist:'#fde2ef',color:'#fde2ef',ai:'#ede1ff',eti:'#ede1ff',rui:'#ddeeff',ops:'#ddeeff'};
-const bdb={img:'#f8a7c8',hist:'#f8a7c8',color:'#f8a7c8',ai:'#c9a7f0',eti:'#c9a7f0',rui:'#a7c8f8',ops:'#a7c8f8'};
+var bgm={img:"#fde2ef",hist:"#fde2ef",color:"#fde2ef",ai:"#ede1ff",eti:"#ede1ff",rui:"#ddeeff",ops:"#ddeeff"};
+var bdb={img:"#f8a7c8",hist:"#f8a7c8",color:"#f8a7c8",ai:"#c9a7f0",eti:"#c9a7f0",rui:"#a7c8f8",ops:"#a7c8f8"};
 function buildCards(){
-  const g=document.getElementById('cg');
+  var g=document.getElementById("cg");
   if(g.children.length>0) return;
-  Object.keys(D).forEach(k=>{
-    const d=D[k];
-    const div=document.createElement('div');
-    div.className='cc';
+  Object.keys(DATA).forEach(function(k){
+    var d=DATA[k];
+    var div=document.createElement("div");
+    div.className="cc";
     div.style.background=bgm[k];
     div.style.borderColor=bdb[k];
-    div.style.borderWidth='1.5px';
-    div.style.borderStyle='solid';
-    div.addEventListener('click',()=>op(k));
-    const items=d.items.slice(0,5).map(i=>'<li>'+i[0]+'</li>').join('');
-    div.innerHTML='<span class="ce">'+d.em+'</span><h3 style="color:'+d.tc+'">'+d.t+'</h3><span class="cu" style="color:'+d.tc+'bb">'+d.u+'</span><ul>'+items+'</ul>';
+    div.addEventListener("click",function(){openPanel(k);});
+    var items=d.items.slice(0,5).map(function(i){return "<li>"+i[0]+"</li>";}).join("");
+    div.innerHTML="<span class=\'ce\'>"+d.em+"</span><h3 style=\'color:"+d.tc+"\'>"+d.t+"</h3><span class=\'cu\' style=\'color:"+d.tc+"bb\'>"+d.u+"</span><ul>"+items+"</ul>";
     g.appendChild(div);
   });
 }
